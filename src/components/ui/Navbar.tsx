@@ -192,7 +192,7 @@ export default function Navbar() {
           <a
             href="#contact"
             onClick={(e) => { e.preventDefault(); scrollTo("#contact"); }}
-            className="btn-primary"
+            className="btn-primary navbar-cta"
             style={{ padding: "0.6rem 1.25rem", fontSize: "0.85rem" }}
           >
             <span>Let&apos;s Talk</span>

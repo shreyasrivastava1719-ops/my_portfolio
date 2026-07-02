@@ -18,6 +18,17 @@ function useInView(threshold = 0.05) {
   return { ref, inView };
 }
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= breakpoint);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 const milestones = [
   {
     label: "Now · 2026",
@@ -101,9 +112,103 @@ const milestones = [
   },
 ];
 
+function MilestoneCard({
+  m,
+  i,
+  activeIdx,
+}: {
+  m: (typeof milestones)[0];
+  i: number;
+  activeIdx: number;
+}) {
+  return (
+    <div
+      style={{
+        padding: "1.25rem 1.5rem",
+        background: activeIdx === i ? `${m.color}12` : "var(--bg-primary)",
+        border: `1.5px solid ${activeIdx === i ? m.color + "40" : "var(--border-light)"}`,
+        borderRadius: "16px",
+        transition: "all 0.3s ease",
+        textAlign: "left",
+        width: "100%",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "0.7rem",
+          fontWeight: 700,
+          color: m.color,
+          letterSpacing: "0.1em",
+          marginBottom: "0.375rem",
+          textTransform: "uppercase",
+        }}
+      >
+        {m.label}
+      </div>
+      <div
+        style={{
+          fontFamily: "'ClashDisplay', sans-serif",
+          fontSize: "1rem",
+          fontWeight: 700,
+          color: "var(--text-primary)",
+          marginBottom: "0.375rem",
+          letterSpacing: "-0.015em",
+        }}
+      >
+        {m.title}
+      </div>
+      <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
+        {m.desc}
+      </div>
+    </div>
+  );
+}
+
+function MilestoneNode({
+  m,
+  isActive,
+  isFuture,
+}: {
+  m: (typeof milestones)[0];
+  isActive: boolean;
+  isFuture: boolean;
+}) {
+  return (
+    <div style={{ display: "flex", justifyContent: "center", position: "relative", zIndex: 1 }}>
+      <div
+        style={{
+          width: isActive ? "52px" : "44px",
+          height: isActive ? "52px" : "44px",
+          borderRadius: "50%",
+          background: isActive
+            ? m.color
+            : isFuture
+            ? "var(--bg-secondary)"
+            : `${m.color}20`,
+          border: `2px solid ${
+            isActive ? m.color : isFuture ? "var(--border-light)" : m.color + "50"
+          }`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "1.2rem",
+          transition: "all 0.4s ease",
+          flexShrink: 0,
+          boxShadow: isActive
+            ? `0 0 24px ${m.color}50, 0 0 8px ${m.color}30`
+            : "none",
+        }}
+      >
+        {m.icon}
+      </div>
+    </div>
+  );
+}
+
 export default function RoadmapSection() {
   const { ref, inView } = useInView();
   const [activeIdx, setActiveIdx] = useState(0);
+  const isMobile = useIsMobile();
 
   return (
     <section
@@ -116,17 +221,18 @@ export default function RoadmapSection() {
         overflow: "hidden",
       }}
     >
-      {/* Space-like background */}
+      {/* Background */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          background: "radial-gradient(ellipse 80% 50% at 50% 100%, rgba(27,94,142,0.06) 0%, transparent 60%)",
+          background:
+            "radial-gradient(ellipse 80% 50% at 50% 100%, rgba(27,94,142,0.06) 0%, transparent 60%)",
           pointerEvents: "none",
         }}
       />
 
-      {/* Decorative stars */}
+      {/* Stars */}
       {Array.from({ length: 30 }).map((_, i) => (
         <div
           key={i}
@@ -167,15 +273,12 @@ export default function RoadmapSection() {
               color: "var(--text-primary)",
             }}
           >
-            The{" "}
-            <span style={{ color: "var(--accent-royal)" }}>Journey</span>{" "}
-            Ahead
+            The <span style={{ color: "var(--accent-royal)" }}>Journey</span> Ahead
           </h2>
           <p
             style={{
               fontSize: "1rem",
               color: "var(--text-muted)",
-              marginTop: "0.75rem",
               maxWidth: "480px",
               margin: "0.75rem auto 0",
             }}
@@ -184,35 +287,56 @@ export default function RoadmapSection() {
           </p>
         </div>
 
-        {/* Timeline */}
-        <div
-          style={{
-            position: "relative",
-            maxWidth: "900px",
-            margin: "0 auto",
-          }}
-        >
-          {/* Center line */}
+        {/* Timeline container */}
+        <div style={{ position: "relative", maxWidth: "900px", margin: "0 auto" }}>
+          {/* Vertical line — centered on desktop, left-aligned on mobile */}
           <div
             style={{
               position: "absolute",
-              left: "50%",
+              left: isMobile ? "20px" : "50%",
               top: 0,
               bottom: 0,
               width: "2px",
-              background: "linear-gradient(to bottom, var(--accent-coral) 0%, var(--accent-teal) 40%, var(--accent-royal) 70%, rgba(27,94,142,0.1) 100%)",
-              transform: "translateX(-50%)",
+              background:
+                "linear-gradient(to bottom, var(--accent-coral) 0%, var(--accent-teal) 40%, var(--accent-royal) 70%, rgba(27,94,142,0.1) 100%)",
+              transform: isMobile ? "none" : "translateX(-50%)",
               zIndex: 0,
             }}
-            className="roadmap-center-line"
           />
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
             {milestones.map((m, i) => {
               const isLeft = i % 2 === 0;
               const isActive = m.status === "current";
               const isFuture = m.status === "future";
 
+              /* ── MOBILE: node left, card right ── */
+              if (isMobile) {
+                return (
+                  <div
+                    key={i}
+                    onClick={() => setActiveIdx(i)}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "48px 1fr",
+                      gap: "0.875rem",
+                      alignItems: "flex-start",
+                      cursor: "pointer",
+                      paddingBottom: i < milestones.length - 1 ? "1.75rem" : "0",
+                      opacity: inView ? 1 : 0,
+                      transform: inView ? "translateY(0)" : "translateY(20px)",
+                      transition: `all 0.6s ease ${0.1 + i * 0.07}s`,
+                    }}
+                  >
+                    <MilestoneNode m={m} isActive={isActive} isFuture={isFuture} />
+                    <div style={{ paddingTop: "4px" }}>
+                      <MilestoneCard m={m} i={i} activeIdx={activeIdx} />
+                    </div>
+                  </div>
+                );
+              }
+
+              /* ── DESKTOP: alternating left/right ── */
               return (
                 <div
                   key={i}
@@ -228,50 +352,19 @@ export default function RoadmapSection() {
                     transform: inView ? "translateY(0)" : "translateY(20px)",
                     transition: `all 0.6s ease ${0.1 + i * 0.07}s`,
                   }}
-                  className="roadmap-row"
                 >
-                  {/* Left content */}
+                  {/* Left slot */}
                   <div style={{ textAlign: "right" }}>
                     {isLeft ? (
                       <div
                         style={{
-                          padding: "1.25rem 1.5rem",
-                          background: activeIdx === i ? `${m.color}12` : "var(--bg-primary)",
-                          border: `1.5px solid ${activeIdx === i ? m.color + "40" : "var(--border-light)"}`,
-                          borderRadius: "16px",
-                          transition: "all 0.3s ease",
                           display: "inline-block",
                           textAlign: "left",
                           maxWidth: "280px",
+                          width: "100%",
                         }}
                       >
-                        <div
-                          style={{
-                            fontSize: "0.7rem",
-                            fontWeight: 700,
-                            color: m.color,
-                            letterSpacing: "0.1em",
-                            marginBottom: "0.375rem",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {m.label}
-                        </div>
-                        <div
-                          style={{
-                            fontFamily: "'ClashDisplay', sans-serif",
-                            fontSize: "1rem",
-                            fontWeight: 700,
-                            color: "var(--text-primary)",
-                            marginBottom: "0.375rem",
-                            letterSpacing: "-0.015em",
-                          }}
-                        >
-                          {m.title}
-                        </div>
-                        <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
-                          {m.desc}
-                        </div>
+                        <MilestoneCard m={m} i={i} activeIdx={activeIdx} />
                       </div>
                     ) : (
                       <div />
@@ -279,73 +372,13 @@ export default function RoadmapSection() {
                   </div>
 
                   {/* Center node */}
-                  <div style={{ display: "flex", justifyContent: "center", position: "relative", zIndex: 1 }}>
-                    <div
-                      style={{
-                        width: isActive ? "52px" : "44px",
-                        height: isActive ? "52px" : "44px",
-                        borderRadius: "50%",
-                        background: isActive
-                          ? m.color
-                          : isFuture
-                          ? "var(--bg-secondary)"
-                          : `${m.color}20`,
-                        border: `2px solid ${isActive ? m.color : isFuture ? "var(--border-light)" : m.color + "50"}`,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "1.2rem",
-                        transition: "all 0.4s ease",
-                        boxShadow: isActive
-                          ? `0 0 24px ${m.color}50, 0 0 8px ${m.color}30`
-                          : "none",
-                      }}
-                    >
-                      {m.icon}
-                    </div>
-                  </div>
+                  <MilestoneNode m={m} isActive={isActive} isFuture={isFuture} />
 
-                  {/* Right content */}
+                  {/* Right slot */}
                   <div style={{ textAlign: "left" }}>
                     {!isLeft ? (
-                      <div
-                        style={{
-                          padding: "1.25rem 1.5rem",
-                          background: activeIdx === i ? `${m.color}12` : "var(--bg-primary)",
-                          border: `1.5px solid ${activeIdx === i ? m.color + "40" : "var(--border-light)"}`,
-                          borderRadius: "16px",
-                          transition: "all 0.3s ease",
-                          display: "inline-block",
-                          maxWidth: "280px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            fontSize: "0.7rem",
-                            fontWeight: 700,
-                            color: m.color,
-                            letterSpacing: "0.1em",
-                            marginBottom: "0.375rem",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {m.label}
-                        </div>
-                        <div
-                          style={{
-                            fontFamily: "'ClashDisplay', sans-serif",
-                            fontSize: "1rem",
-                            fontWeight: 700,
-                            color: "var(--text-primary)",
-                            marginBottom: "0.375rem",
-                            letterSpacing: "-0.015em",
-                          }}
-                        >
-                          {m.title}
-                        </div>
-                        <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
-                          {m.desc}
-                        </div>
+                      <div style={{ maxWidth: "280px" }}>
+                        <MilestoneCard m={m} i={i} activeIdx={activeIdx} />
                       </div>
                     ) : (
                       <div />
@@ -357,13 +390,6 @@ export default function RoadmapSection() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .roadmap-center-line { left: 24px !important; }
-          .roadmap-row { grid-template-columns: auto 1fr !important; }
-        }
-      `}</style>
     </section>
   );
 }

@@ -228,6 +228,7 @@ function ProjectCard({ project, index, inView }: { project: typeof projects[0]; 
             gap: "0.75rem",
             marginBottom: "1.5rem",
           }}
+          className="project-ps-grid"
         >
           {[
             { label: "Problem", text: project.problem, icon: "❓" },

@@ -575,32 +575,185 @@ body {
 }
 
 /* ============================================================
-   RESPONSIVE
+   RESPONSIVE — TABLET  (≤ 1024px)
    ============================================================ */
-@media (max-width: 768px) {
-  :root {
-    --section-padding: 5rem 0;
-  }
-
-  .container-wide,
-  .container-narrow {
-    padding: 0 1.25rem;
-  }
-
-  .custom-cursor,
-  .custom-cursor-ring {
-    display: none;
-  }
-}
-
 @media (max-width: 1024px) {
+  /* Hero: collapse to single column but SHOW photo below text */
   .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+  }
+
+  .hero-photo-container {
+    display: flex !important;
+    justify-content: center !important;
+    order: -1 !important; /* show photo ABOVE text on tablet */
+  }
+
+  /* Education */
+  .edu-grid {
     grid-template-columns: 1fr !important;
     gap: 2rem !important;
   }
 
-  .hero-photo-container {
+  /* Skills bottom cards */
+  .skill-cards {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE  (≤ 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  :root {
+    --section-padding: 4rem 0;
+  }
+
+  /* Container padding */
+  .container-wide,
+  .container-narrow {
+    padding: 0 1.1rem;
+  }
+
+  /* Hide custom cursor on touch */
+  .custom-cursor,
+  .custom-cursor-ring {
+    display: none;
+  }
+
+  /* ── Navbar ── */
+  /* Hide "Let's Talk" CTA button on very small screens to save space */
+  .navbar-cta {
     display: none !important;
+  }
+
+  /* ── Hero ── */
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+    text-align: center;
+  }
+
+  /* Photo: show above text, smaller size */
+  .hero-photo-container {
+    display: flex !important;
+    justify-content: center !important;
+    order: -1 !important;
+  }
+
+  .hero-photo-container > div {
+    width: 180px !important;
+    height: 230px !important;
+  }
+
+  /* Hero CTA buttons: stack on very narrow */
+  .hero-ctas {
+    justify-content: center !important;
+  }
+
+  /* Hero stats: center and reduce gap */
+  .hero-stats {
+    justify-content: center !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Hero social links: center */
+  .hero-socials {
+    margin-left: 0 !important;
+  }
+
+  /* ── About ── */
+  .grid-cols-about {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+
+  /* ── Skills ── */
+  .skills-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  .skill-cards {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+
+  /* ── Projects ── */
+  .projects-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Project problem/solution: stack on mobile */
+  .project-ps-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem !important;
+  }
+
+  /* ── Education ── */
+  .edu-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  /* ── Roadmap ── */
+  /* Collapse alternating layout to single left-aligned list */
+  .roadmap-center-line {
+    left: 20px !important;
+    transform: none !important;
+  }
+
+  .roadmap-row {
+    grid-template-columns: auto 1fr !important;
+    gap: 1rem !important;
+  }
+
+  /* ── Certifications ── */
+  .cert-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Contact ── */
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Section headings ── */
+  section {
+    padding: 5rem 0 !important;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — SMALL MOBILE  (≤ 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+  .container-wide,
+  .container-narrow {
+    padding: 0 0.875rem;
+  }
+
+  /* Photo even smaller on tiny screens */
+  .hero-photo-container > div {
+    width: 150px !important;
+    height: 190px !important;
+  }
+
+  /* Skills: single column on tiny */
+  .skill-cards {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Roadmap: tighter gap */
+  .roadmap-row {
+    gap: 0.75rem !important;
+    padding-bottom: 1.75rem !important;
   }
 }
 

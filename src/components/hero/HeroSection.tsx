@@ -343,6 +343,7 @@ export default function HeroSection() {
                 flexWrap: "wrap",
                 alignItems: "center",
               }}
+              className="hero-ctas"
             >
               <button
                 className="btn-primary"
@@ -365,7 +366,7 @@ export default function HeroSection() {
               </button>
 
               {/* Social links */}
-              <div style={{ display: "flex", gap: "0.5rem", marginLeft: "0.5rem" }}>
+              <div style={{ display: "flex", gap: "0.5rem", marginLeft: "0.5rem" }} className="hero-socials">
                 {[
                   {
                     href: "https://github.com/shreya-srivastava",
@@ -438,6 +439,7 @@ export default function HeroSection() {
                 borderTop: "1px solid var(--border-light)",
                 marginTop: "0.5rem",
               }}
+              className="hero-stats"
             >
               {[
                 { value: "7.5", label: "CGPA" },
