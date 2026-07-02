@@ -22,7 +22,7 @@ const certifications = [
   {
     title: "Python for Everybody",
     platform: "Coursera / University of Michigan",
-    year: "2023",
+    year: "2025",
     icon: "🐍",
     color: "var(--accent-coral)",
     desc: "Completed 5-course specialization covering Python basics, data structures, and database access.",
@@ -30,7 +30,7 @@ const certifications = [
   {
     title: "Machine Learning Foundations",
     platform: "Google AI / Kaggle",
-    year: "2024",
+    year: "2026",
     icon: "🤖",
     color: "var(--accent-teal)",
     desc: "Hands-on ML with scikit-learn, feature engineering, and model evaluation on real datasets.",
@@ -38,7 +38,7 @@ const certifications = [
   {
     title: "Introduction to TensorFlow",
     platform: "Coursera / deeplearning.ai",
-    year: "2024",
+    year: "2026",
     icon: "🔥",
     color: "var(--accent-royal)",
     desc: "Built CNNs for image classification, RNNs for NLP, and deployed models with TF Serving.",
@@ -46,15 +46,15 @@ const certifications = [
   {
     title: "Data Analysis with Python",
     platform: "IBM / Cognitive Class",
-    year: "2023",
+    year: "2025",
     icon: "📊",
     color: "var(--accent-gold)",
     desc: "NumPy, Pandas, Matplotlib, Seaborn for exploratory data analysis and visualization.",
   },
   {
     title: "Open Source Contribution",
-    platform: "HacktoberFest 2023",
-    year: "2023",
+    platform: "HacktoberFest 2025",
+    year: "2026",
     icon: "🌐",
     color: "var(--accent-emerald)",
     desc: "4 accepted pull requests to open-source Python and ML repositories on GitHub.",
@@ -62,7 +62,7 @@ const certifications = [
   {
     title: "Web Development Bootcamp",
     platform: "Udemy / Angela Yu",
-    year: "2024",
+    year: "2025",
     icon: "💻",
     color: "var(--accent-coral)",
     desc: "Full stack fundamentals: HTML, CSS, JavaScript, React, Node.js, and REST APIs.",

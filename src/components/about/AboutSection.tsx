@@ -143,8 +143,8 @@ export default function AboutSection() {
                 }}
               >
                 {[
-                  { icon: "🎓", text: "B.Tech CSE at SRMCEM — Class of 2027" },
-                  { icon: "⭐", text: "CGPA 8.5 — Consistently top performer" },
+                  { icon: "🎓", text: "B.Tech CSE at SRMCEM — Class of 2029" },
+                  { icon: "⭐", text: "CGPA 7.5 — Consistently top performer" },
                   { icon: "🌱", text: "Currently learning: Deep Learning & LLMs" },
                   { icon: "🎯", text: "Goal: Full Stack AI Engineer at a top tech company" },
                 ].map((fact, i) => (
@@ -208,21 +208,27 @@ export default function AboutSection() {
                     width: "90px",
                     height: "90px",
                     borderRadius: "50%",
-                    background: "linear-gradient(135deg, var(--accent-coral), var(--accent-teal))",
+                    overflow: "hidden",
+                    border: "4px solid var(--bg-primary)",
+                    boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
+                    position: "absolute",
+                    bottom: "-45px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: "2.25rem",
-                    fontFamily: "'ClashDisplay', sans-serif",
-                    fontWeight: 700,
-                    color: "white",
-                    border: "4px solid var(--bg-primary)",
-                    boxShadow: "0 8px 30px rgba(232,117,90,0.3)",
-                    position: "absolute",
-                    bottom: "-45px",
                   }}
                 >
-                  SS
+                  <img
+                    src="/profile.jpg"
+                    alt="Shreya Srivastava"
+                    loading="lazy"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "center 20%",
+                    }}
+                  />
                 </div>
               </div>
 
@@ -264,7 +270,7 @@ export default function AboutSection() {
                     { label: "Location", value: "Lucknow, India" },
                     { label: "College", value: "SRMCEM" },
                     { label: "Year", value: "2nd Year B.Tech" },
-                    { label: "CGPA", value: "8.5 / 10" },
+                    { label: "CGPA", value: "7.5 / 10" },
                   ].map((item) => (
                     <div key={item.label} style={{ textAlign: "left" }}>
                       <div style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.15rem" }}>

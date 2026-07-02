@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -18,6 +17,9 @@ export default function Navbar() {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
+    // Check initial dark mode from DOM
+    setIsDark(document.documentElement.classList.contains("dark"));
+
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
@@ -47,13 +49,15 @@ export default function Navbar() {
         left: 0,
         right: 0,
         zIndex: 1000,
-        padding: scrolled ? "0.75rem 0" : "1.25rem 0",
+        padding: scrolled ? "0.6rem 0" : "1.25rem 0",
         transition: "all 0.4s cubic-bezier(0.19, 1, 0.22, 1)",
         background: scrolled
-          ? "rgba(250, 250, 248, 0.88)"
+          ? "var(--bg-glass)"
           : "transparent",
         backdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(26,26,26,0.06)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
+        borderBottom: scrolled ? "1px solid var(--border-light)" : "none",
+        boxShadow: scrolled ? "var(--shadow-glass)" : "none",
       }}
     >
       <div
@@ -68,17 +72,65 @@ export default function Navbar() {
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           style={{
-            fontFamily: "'ClashDisplay', sans-serif",
-            fontSize: "1.15rem",
-            fontWeight: 700,
-            color: "var(--text-primary)",
-            letterSpacing: "-0.02em",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.625rem",
             background: "none",
             border: "none",
             cursor: "pointer",
+            padding: 0,
           }}
+          className="group cursor-target"
         >
-          SS<span style={{ color: "var(--accent-coral)" }}>.</span>
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 100 100"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{
+              transition: "transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+            }}
+            className="group-hover:rotate-12 group-hover:scale-105"
+          >
+            <defs>
+              <linearGradient id="logo-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="var(--accent-coral)" />
+                <stop offset="100%" stopColor="var(--accent-gold)" />
+              </linearGradient>
+              <linearGradient id="logo-grad-2" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="var(--accent-teal)" />
+                <stop offset="100%" stopColor="var(--accent-royal)" />
+              </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="42" stroke="var(--border-medium)" strokeWidth="2" strokeDasharray="4 4" />
+            <path
+              d="M30 40 C30 25, 45 20, 50 20 C62 20, 70 28, 70 38 C70 52, 30 48, 30 62 C30 72, 38 80, 50 80 C65 80, 70 70, 70 65"
+              stroke="url(#logo-grad-1)"
+              strokeWidth="8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M70 60 C70 75, 55 80, 50 80 C38 80, 30 72, 30 62 C30 48, 70 52, 70 38 C70 28, 62 20, 50 20 C35 20, 30 30, 30 35"
+              stroke="url(#logo-grad-2)"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.8"
+            />
+          </svg>
+          <span
+            style={{
+              fontFamily: "'ClashDisplay', sans-serif",
+              fontSize: "1.1rem",
+              fontWeight: 700,
+              letterSpacing: "-0.02em",
+              color: "var(--text-primary)",
+            }}
+          >
+            Shreya<span style={{ color: "var(--accent-coral)" }}>.</span>
+          </span>
         </button>
 
         {/* Desktop Nav */}
@@ -136,7 +188,7 @@ export default function Navbar() {
             {isDark ? "☀️" : "🌙"}
           </button>
 
-          {/* Resume button */}
+          {/* Resume/Talk button */}
           <a
             href="#contact"
             onClick={(e) => { e.preventDefault(); scrollTo("#contact"); }}
@@ -198,8 +250,9 @@ export default function Navbar() {
             top: "100%",
             left: 0,
             right: 0,
-            background: "rgba(250,250,248,0.97)",
+            background: "var(--bg-glass)",
             backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
             borderBottom: "1px solid var(--border-light)",
             padding: "1rem 0 1.5rem",
           }}
